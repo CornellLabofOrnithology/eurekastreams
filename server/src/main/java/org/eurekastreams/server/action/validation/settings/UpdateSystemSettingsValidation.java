@@ -169,7 +169,7 @@ public class UpdateSystemSettingsValidation implements ValidationStrategy<Action
 
         if (fields.containsKey("ldapGroups") && ((List<MembershipCriteria>) fields.get("ldapGroups")).size() == 0)
         {
-            ve.addError("ldapGroups", "At least one entry is required in the access list");
+            //ve.addError("ldapGroups", "At least one entry is required in the access list");
         }
 
         if (fields.containsKey("contentWarningText") && fields.get("contentWarningText") == null)

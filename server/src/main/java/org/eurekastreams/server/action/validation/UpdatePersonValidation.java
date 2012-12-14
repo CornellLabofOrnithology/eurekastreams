@@ -92,15 +92,18 @@ public class UpdatePersonValidation implements ValidationStrategy<ServiceActionC
         ValidationHelper vHelper = new ValidationHelper();
         ValidationException ve = new ValidationException();
 
-        String title = (String) vHelper.getAndCheckStringFieldExist(personData, PersonModelView.TITILE_KEY, true, ve);
-        vHelper.stringMeetsRequirments(PersonModelView.TITILE_KEY, title, ve, "Title is required.",
-                Person.MAX_TITLE_LENGTH, Person.TITLE_MESSAGE, null, null);
+        //@author yardmap-cm325 we don't need to require title, just validate the length
+        //TODO update tests as well...
+        String title = (String) vHelper.getAndCheckStringFieldExist(personData, PersonModelView.TITILE_KEY, false, ve);
+        vHelper.stringMeetsRequirments(PersonModelView.TITILE_KEY, title, ve, null, 
+                Person.MAX_TITLE_LENGTH, Person.TITLE_MESSAGE, null, null); //nonNullMessage was "Title is required."
 
+        //@author yardmap-cm325 //allowed numbers in regex
         String perferredName = (String) vHelper.getAndCheckStringFieldExist(personData,
                 PersonModelView.PREFERREDNAME_KEY, true, ve);
         vHelper.stringMeetsRequirments(PersonModelView.PREFERREDNAME_KEY, perferredName, ve, PREFERREDNAME_MESSAGE,
-                +DEFAULT_MAX_STRING_LENGTH, PREFERREDNAME_MESSAGE, "^[a-zA-Z\\'\\`\\ \\-]+$",
-                "Display Name has invalid characters.");
+                +DEFAULT_MAX_STRING_LENGTH, PREFERREDNAME_MESSAGE, "^[a-zA-Z0-9\\'\\`\\ \\-]+$",
+                "Display Name has invalid characters."); 
 
         String description = (String) vHelper.getAndCheckStringFieldExist(personData, PersonModelView.DESCRIPTION_KEY,
                 true, ve);

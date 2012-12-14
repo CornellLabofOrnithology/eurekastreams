@@ -98,7 +98,12 @@ public class ThemeCssDbMapper implements DomainMapper<String, String>
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Unable to retrieve theme css", e);
+            //@author yardmao-cm325 we dont care that we can't get themes, and for some reason
+        								//requests coming from es to es are failing with 400
+        	//throw new RuntimeException("Unable to retrieve theme css", e);
+        	
+        	//return default string css instead
+        	return "<Theme><Title>Green Blocks</Title><Description>Green Blocks</Description><AuthorName>Eureka Streams</AuthorName><AuthorEmail>support@eurekastreams.org</AuthorEmail><HeaderBackground><HeaderBackgroundColor>white</HeaderBackgroundColor><HeaderForegroundColor>white</HeaderForegroundColor><HeaderBackgroundImage>/style/images/Start_page_4.jpg</HeaderBackgroundImage></HeaderBackground><ActiveTabBorderColor>#162d23</ActiveTabBorderColor><ActiveTabForegroundColor>white</ActiveTabForegroundColor><InactiveTabBackgroundColor>#355749</InactiveTabBackgroundColor><InactiveTabBorderColor>#162d23</InactiveTabBorderColor><InactiveTabForegroundColor>white</InactiveTabForegroundColor><GadgetTitleBackgroundColor>#5a8675</GadgetTitleBackgroundColor><GadgetTitleForegroundColor>white</GadgetTitleForegroundColor><GadgetBorderColor>#355749</GadgetBorderColor><PageBackground><PageBackgroundColor>#a4d1c1</PageBackgroundColor><PageBackgroundImage/></PageBackground></Theme>";
         }
         finally
         {

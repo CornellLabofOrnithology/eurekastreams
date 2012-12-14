@@ -160,7 +160,8 @@ public abstract class UploadImageServlet<T extends DomainEntity> extends HttpSer
         // TODO Store this somewhere?
         // Value is in Bytes
 
-        final long maxFileSize = 4000000;
+        //@author yardmap-cm325 we want to lower this limit to 3mb (with small margin for error)
+        final long maxFileSize = 3010000; //was 4000000 
         upload.setFileSizeMax(maxFileSize);
         try
         {

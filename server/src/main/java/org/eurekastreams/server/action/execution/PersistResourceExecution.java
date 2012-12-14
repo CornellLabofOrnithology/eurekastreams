@@ -35,6 +35,9 @@ import org.eurekastreams.server.persistence.PersonMapper;
 import org.eurekastreams.server.service.actions.strategies.ResourcePersistenceStrategy;
 import org.eurekastreams.server.service.actions.strategies.UpdaterStrategy;
 
+//@author cm325-yardmap once we started building without the eureka maven site, this apparently was required, but I don't see an compilation errors in the class without it
+import bsh.This;
+
 /**
  * Persist a resource.
  *
@@ -100,6 +103,8 @@ public class PersistResourceExecution<T> implements TaskHandlerExecutionStrategy
     {
         try
         {
+        	log.info("PersistResourceExecution is checking fields in Person and persisting to db");
+        	
             // convert the params to a map
             Map<String, Serializable> fields = (Map<String, Serializable>) inActionContext.getActionContext()
                     .getParams();
@@ -128,6 +133,8 @@ public class PersistResourceExecution<T> implements TaskHandlerExecutionStrategy
 
             // persist
             persistenceStrategy.persist(inActionContext, newFields, resource);
+            
+            log.info("PersistResourceExecution has finished successfully, returning new Person");
 
             return (Serializable) resource;
         }
