@@ -21,10 +21,12 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -114,7 +116,12 @@ public final class DBUnitFixtureSetup
         // Get the connection to the database
         Connection connection = DataSourceUtils.getConnection(dataSource);
         IDatabaseConnection dbUnitCon = new DatabaseConnection(connection);
-
+        
+        //get the connection to the database with postgres
+        //@author yardmap-cm325 note this requires changed the dbunit dependency to 2.4.5
+        DatabaseConfig dbUnitConConfig = dbUnitCon.getConfig();
+        dbUnitConConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
+        
         // Get the data from the file at the input resource path
         IDataSet dataSet = new FlatXmlDataSet(DBUnitFixtureSetup.class.getResourceAsStream(newDatasetPath));
 
