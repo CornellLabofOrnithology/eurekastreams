@@ -47,13 +47,16 @@ public class GetFollowerPersonIdsForPersonByIdDbMapperTest extends MapperTest
 
     /**
      * test.
+     * TODO @author yardmap-cm325 since the change to people first following themselves, this needs
+     * 									to be changed to results.get(1) instead of result.gets(0)
+     * TODO @author yardmap-cm325 is there somewhere that actually needs to get it sort order updated for this?
      */
     @Test
     public void testExecute()
     {
         List<Long> results = mapper.execute(USER_ID);
         assertEquals(2, results.size());
-        assertEquals(new Long(FOLLOWER_ID), results.get(0));
+        assertEquals(new Long(FOLLOWER_ID), results.get(1));
     }
 
 }

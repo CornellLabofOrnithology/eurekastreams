@@ -494,6 +494,8 @@ public class TabMapperTest extends DomainEntityMapperTest
      * 
      * @throws GadgetDeletionException
      *             thrown on exception deleting the tab.
+     *             
+     * TODO @author yarmdap-cm325 this test fails with ambiguous id
      */
     @Test
     public void testDeletedGadgetWithinWindowShouldRemainAfterAnotherDelete() throws GadgetDeletionException
@@ -559,6 +561,8 @@ public class TabMapperTest extends DomainEntityMapperTest
      * 
      * @throws GadgetDeletionException
      *             thrown on exception deleting the gadget.
+     *             
+     * TODO @author yarmdap-cm325 this test fails with ambiguous id
      */
     @Test
     public void testDeletedGadgetOutsideWindowShouldBePermanentlyDeletedAfterAnotherDelete()
@@ -612,8 +616,9 @@ public class TabMapperTest extends DomainEntityMapperTest
         long fordsActiveGadgetId = fordsFirstTabFirstGadgetId;
 
         // check the existence of an already-deleted gadget
+        //@author yardmap-cm325 this test fails because id = remains ambiguous, even after after the table alias "de"
         GadgetDefinition gadgetDefinition = (GadgetDefinition) getEntityManager().createQuery(
-                "select gadgetDefinition from Gadget where id = :gadgetId and deleted = true").setParameter("gadgetId",
+                "select gadgetDefinition from Gadget de where de.id = :gadgetId and deleted = true").setParameter("gadgetId",
                 fordsDeletedGadgetId).getSingleResult();
 
         assertEquals("Could not find the already-deleted gadget", "http://www.example.com/gadget2.xml",
