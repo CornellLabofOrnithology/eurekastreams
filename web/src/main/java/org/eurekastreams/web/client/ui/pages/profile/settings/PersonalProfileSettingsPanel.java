@@ -57,9 +57,12 @@ public class PersonalProfileSettingsPanel extends SettingsPanel
         PersonalStreamSettingsTabContent personalStreamSettingsTabContent = new PersonalStreamSettingsTabContent();
         personalStreamSettingsTabContent.addStyleName(StaticResourceBundle.INSTANCE.coreCss()
                 .profileSettingsTabContent());
-
+      
         portalPage.addTab(new SimpleTab("Basic Info", profileTabContent));
-        portalPage.addTab(new SimpleTab("Stream Plugins", personalStreamSettingsTabContent));
+        //@author yardmap-cm325 hide the stream plugins tab for now
+        SimpleTab streamPluginsTab = new SimpleTab("Stream Plugins", personalStreamSettingsTabContent);
+        streamPluginsTab.addStyleName(StaticResourceBundle.INSTANCE.coreCss().ymDisplayNone());
+        portalPage.addTab(streamPluginsTab);
         portalPage.init();
 
         portalPageContainer.add(portalPage);

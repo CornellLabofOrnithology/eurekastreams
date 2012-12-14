@@ -108,35 +108,52 @@ public class PersonalProfileSettingsTabContent extends Composite
                                         person, "resizePersonAvatar", EntityType.PERSON)));
                         form.addFormDivider();
 
-                        form.addFormElement(new BasicTextBoxFormElement(MAX_LENGTH, false, "Title",
+                        //@author yardmap-cm325 changed required to false, we dont need to require titles, and changed
+                        //		label "title" to "tag line", since this is more how we're using it
+                        form.addFormElement(new BasicTextBoxFormElement(MAX_LENGTH, false, "Tag Line",
                                 PersonModelView.TITILE_KEY, person.getTitle(),
-                                "Your title will appear below your photo on the profile page", true));
+                                "Your title will appear below your photo on the profile page", false));
                         form.addFormDivider();
-                        form.addFormElement(new BasicTextBoxFormElement(MAX_LENGTH, false, "First Name",
+                        //@author yardmap-cm325 changed the name of the box from "First Name" to "Display Name", since 
+                        //       thats how we're using this. changed help text to was:
+                        //       Entering a display name will replace your first name anywhere your name appears in the system
+                        form.addFormElement(new BasicTextBoxFormElement(MAX_LENGTH, false, "Display Name",
                                 PersonModelView.PREFERREDNAME_KEY, person.getPreferredName(),
-                                "Entering a display name will replace your first name anywhere your name "
-                                        + "appears in the system", true));
+                                "The display name defaults to your login name, but if you would like a different name"
+                                        + "within the social network, change it here.", true));
                         form.addFormDivider();
-                        form.addFormElement(new BasicTextAreaFormElement(Person.MAX_JOB_DESCRIPTION_LENGTH,
+                        
+                        //@author yardmap-cm325 we don't want to see this box, so hide it and dont add divider
+                        BasicTextAreaFormElement descriptionTextArea = new BasicTextAreaFormElement(Person.MAX_JOB_DESCRIPTION_LENGTH,
                                 "Job Description", PersonModelView.DESCRIPTION_KEY, person.getJobDescription(),
-                                "Enter a brief description of your job responsibilities.", false));
-                        form.addFormDivider();
+                                "Enter a brief description of your job responsibilities.", false);
+                        descriptionTextArea.setStyleName(StaticResourceBundle.INSTANCE.coreCss().ymDisplayNone(), true);
+                        form.addFormElement(descriptionTextArea);
+                        //form.addFormDivider();
 
                         String skills = DomainFormatUtility.buildCapabilitiesStringFromStrings(person.getInterests());
 
+                        //@author yardmap-cm325 remove "work"
                         form.addFormElement(new AutoCompleteItemDropDownFormElement("Keywords",
                                 PersonModelView.SKILLS_KEY, skills,
-                                "Add keywords that describe your work experience, skills, interests, or "
+                                "Add keywords that describe your experience, skills, interests, or "
                                         + "hobbies. Separate keywords with a comma. Including tags increases your "
                                         + "chances of being found in a profile search.", false,
                                 "/resources/autocomplete/skill/", "itemNames", ElementType.TEXTAREA, ","));
                         form.addFormDivider();
 
-                        form.addFormElement(new BasicTextBoxFormElement(MAX_LENGTH, false, "Phone",
-                                PersonModelView.WORKPHONE_KEY, person.getWorkPhone(), null, false));
-                        form.addFormDivider();
-                        form.addFormElement(new BasicTextBoxFormElement(MAX_EMAIL, false, "Email",
-                                PersonModelView.EMAIL_KEY, person.getEmail(), "(ex. user@example.com)", true));
+                        //@author yardmap-cm325 hide phone number
+                        BasicTextBoxFormElement phoneNumberTextBox = new BasicTextBoxFormElement(MAX_LENGTH, false, "Phone",
+                                PersonModelView.WORKPHONE_KEY, person.getWorkPhone(), null, false);
+                        phoneNumberTextBox.setStyleName(StaticResourceBundle.INSTANCE.coreCss().ymDisplayNone(), true);
+                        form.addFormElement(phoneNumberTextBox);
+                        //form.addFormDivider();
+                        
+                        //@author yardmap-cm325 we dont want people changing their emails here, only through their main account
+                        BasicTextBoxFormElement emailTextBox = new BasicTextBoxFormElement(MAX_EMAIL, false, "Email",
+                                PersonModelView.EMAIL_KEY, person.getEmail(), "(ex. user@example.com)", true);
+                        emailTextBox.getTextBox().getElement().setAttribute("disabled", "disabled");
+                        form.addFormElement(emailTextBox);
 
                         form.addFormDivider();
                         BasicCheckBoxFormElement blockWallPost = new BasicCheckBoxFormElement("Stream Moderation",

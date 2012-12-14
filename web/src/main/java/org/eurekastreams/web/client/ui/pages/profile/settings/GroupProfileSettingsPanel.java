@@ -74,7 +74,10 @@ public class GroupProfileSettingsPanel extends SettingsPanel
         streamSettingsTabContent.addStyleName(StaticResourceBundle.INSTANCE.coreCss().profileSettingsTabContent());
 
         portalPage.addTab(new SimpleTab("Basic Info", profileTabContent));
-        portalPage.addTab(new SimpleTab("Stream Plugins", streamSettingsTabContent));
+        //@author yardmap-cm325 hide stream plugins for now, we have none...
+        SimpleTab streamPluginTab = new SimpleTab("Stream Plugins", streamSettingsTabContent);
+        streamPluginTab.addStyleName(StaticResourceBundle.INSTANCE.coreCss().ymDisplayNone());
+        portalPage.addTab(streamPluginTab);
         portalPage.init();
 
         portalPageContainer.add(portalPage);
