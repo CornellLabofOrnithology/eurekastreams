@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eurekastreams.commons.client.ActionProcessor;
 import org.eurekastreams.commons.client.ActionProcessorImpl;
@@ -26,6 +28,7 @@ import org.eurekastreams.commons.client.ActionRPCService;
 import org.eurekastreams.commons.client.ActionRPCServiceAsync;
 import org.eurekastreams.server.domain.AvatarUrlGenerator;
 import org.eurekastreams.server.domain.EntityType;
+import org.eurekastreams.server.domain.Page;
 import org.eurekastreams.server.domain.TermsOfServiceDTO;
 import org.eurekastreams.server.domain.stream.StreamEntityDTO;
 import org.eurekastreams.server.search.modelview.PersonModelView;
@@ -210,6 +213,7 @@ public class ApplicationEntryPoint implements EntryPoint
         setUpGwtFunctions();
 
         loadPerson();
+        
     }
 
     /**
@@ -262,6 +266,15 @@ public class ApplicationEntryPoint implements EntryPoint
                 processor.setQueueRequests(false);
 
                 rootPanel.add(master);
+                
+                //@author yardmap-cm325 makes the default page the activity page, shows client side logging too
+                String initToken = History.getToken();
+                Logger logger = Logger.getLogger("NameOfYourLogger");
+                logger.log(Level.SEVERE, Session.getInstance().getUrlPage().toString());
+                if (initToken.length() == 0) {
+                  History.newItem(Page.ACTIVITY.toString());
+                }
+                
             }
         });
     }

@@ -119,35 +119,48 @@ public class ConnectEntryPoint implements EntryPoint
 
                 determineLaunchPage();
 
-                // catch attempts to go to profile pages and pop them up in a new window
-                final EventBus eventBus = Session.getInstance().getEventBus();
-                eventBus.addObserver(SwitchedHistoryViewEvent.class, new Observer<SwitchedHistoryViewEvent>()
+                //@author cm325 if this is an embedded page in the app, we dont want this additional new window link click behavior                
+                WidgetJSNIFacadeImpl util = new WidgetJSNIFacadeImpl();
+                String isYmEmbedded = util.getParameter("ym_embedded");
+                if (isYmEmbedded == null)
                 {
-                    public void update(final SwitchedHistoryViewEvent ev)
-                    {
-                        switch (ev.getPage())
-                        {
-                        case ACTIVITY:
-                        case PEOPLE:
-                        case PEOPLE_LEGACY:
-                        case GROUPS:
-                        case GROUPS_LEGACY:
-                        case DISCOVER:
-                            String url = mainAppLaunchUrl + Window.Location.getHash();
-                            Window.open(url, "_blank", "");
-                            History.back();
-                            break;
-                        default:
-                            break;
-                        }
-                    }
-                });
 
+                	// catch attempts to go to profile pages and pop them up in a new window
+                    final EventBus eventBus = Session.getInstance().getEventBus();
+                    eventBus.addObserver(SwitchedHistoryViewEvent.class, new Observer<SwitchedHistoryViewEvent>()
+                    {
+                        public void update(final SwitchedHistoryViewEvent ev)
+                        {
+                            switch (ev.getPage())
+                            {
+                            case ACTIVITY:
+                            case PEOPLE:
+                            case PEOPLE_LEGACY:
+                            case GROUPS:
+                            case GROUPS_LEGACY:
+                            case DISCOVER:
+                                String url = mainAppLaunchUrl + Window.Location.getHash();
+                                Window.open(url, "_blank", "");
+                                History.back();
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+                    });
+	
+                }
+                
+                
                 recordStreamViewMetrics();
 
                 Session.getInstance().getEventBus().bufferObservers();
 
                 buildPage();
+                
+                //TODO this hook is less than ideal, it runs even before the ajax scripts finish rendering the content....
+                //@author cm325 creates a hook for additional scrpts after gwt rendering is complete
+                customGwtJsniReadyEvent();
             }
         });
     }
@@ -246,4 +259,16 @@ public class ConnectEntryPoint implements EntryPoint
             }
         }
     }
+    
+    /**
+     * Provide a hook for additional in page scripts to be called after gwt is finished rendering
+     *
+     * @author cm325
+     */
+    public static native void customGwtJsniReadyEvent()
+    /*-{
+        if(typeof $wnd.customGwtJsniReadyEvent === "function"){
+        	$wnd.customGwtJsniReadyEvent();
+        }
+    }-*/;
 }

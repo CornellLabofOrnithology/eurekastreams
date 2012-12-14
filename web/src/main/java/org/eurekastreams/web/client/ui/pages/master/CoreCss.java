@@ -266,6 +266,9 @@ public interface CoreCss extends CssResource
 
     @ClassName("display-none")
     String displayNone();
+    
+    @ClassName("ym-display-none")
+    String ymDisplayNone();
 
     @ClassName("drop-zone")
     String dropZone();
