@@ -110,6 +110,12 @@ div.break {
 	display: none;
 }
 
+/* @author yardmap-cm325 added a display-none for ym specific things 
+    so style sheet changes can revert to original es look/functioning*/
+.ym-display-none {
+	display:none;
+}
+
 a:link,a:visited,a:active,.linked-label {
 	color: #1481B3;
 }
@@ -238,6 +244,8 @@ img {
     margin-top: 13px !important;
     overflow: hidden;
     width: 28px;
+    /* @author yardmap-cm325 we don't want to see this, but lets keep the spacing */
+    visibility: hidden;
 }
 
 .external-header-button a {
@@ -430,6 +438,8 @@ div.banner-container {
 	width: 990px;
 	position: relative;
 	height: 70px;
+	/* @author yardmap-cm325 - we don't want to see this*/
+	display:none;
 }
 
 .footer-bar .horizontal {
@@ -1369,7 +1379,10 @@ body .post-expanded-panel .content-warning {
 	 border-left: 1px solid #999999;
 	 border-right: 1px solid #999999;
 	 padding: 0;
-	 margin-left: -235px;
+	 /*@author yardmap-cm325 */
+	 /*margin-left: -235px;*/
+	 /* can use browser specific code here - http://code.google.com/webtoolkit/doc/latest/DevGuideClientBundle.html#Optimizations */
+	 margin-left:0px;
 	 zoom: 1;
 }
 

@@ -6,7 +6,7 @@
     <meta equiv="X-UA-Compatible" content="chrome=1">
     <title>Eureka</title>
   </head>
-  <body id="full-app-rootpanel">
+  <body id="full-app-rootpanel" >
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
     <script type="text/javascript" src="/gadgets/js/core:rpc:eurekastreams-container:shindig-container.js?c=1&container=eureka&debug=0"></script>
     <script type="text/javascript" language="javascript" src="${build.web.cdn}/eureka.nocache.js?${timestamp}"></script>
@@ -40,6 +40,59 @@
     {
         window.location = "noclient.html";
     }
-	</script>    
+	</script>   
+	
+	<!-- @author yardmap-cm325 make this part of a page in war overlay? -->
+	<!-- <link rel="stylesheet" href="http://images.yardmap.org/css/social/eureka.css" type="text/css" />  -->
+	<link rel="stylesheet" href="/style/es-yardmap.css" type="text/css" />
+	
+	<script type="text/javascript">
+		
+		//TODO this prevented the gwt scripts from running, because the main gwt javascript is pulled in with ajax. it works if you add document domain on that page too
+		//allow cross SUB-domain communication
+		//document.domain = "yardmap.org";
+
+		//bind internal ym links
+		//check if this page is being embedded by ym
+		var $ymLinks = $("#gwt-debug-es-ym-main > div:eq(0) a[href*='app.yardmap.org']");		
+		
+		//TODO try-catch is here because in firefox accessing parent bombs if parent is not on same domain
+		try{
+		if(parent.socket){
+		  $ymLinks.live("click",function(){
+			try{
+				//TODO unfortunately we have two different kinds of links that are possible here, permalinks "/map/3433/" and internal links like "/map#!/learn"
+				//the former type has to be converted to a hash location, the latter stays, and we could also theoretically have "/map/3433#!/learn"
+				var url = /\/map\/[0-9]*|\/map#!\/.*/.exec($(this).attr("href"))[0].replace("/map#!","");
+				parent.socket_interDomain_postMessage(url);
+				return false;
+			} catch(e){
+				console.log(e);
+				//ran into trouble, open in new tab at least
+				$(this).attr("target","_blank");			
+			}
+		  });
+		} else {
+		  //not embedded, just open external links in new tabs
+		  $ymLinks.live("click",function(){ 
+			$(this).attr("target","_blank");
+		  });	
+		}
+		} catch(e){
+			console.warn(e);
+			
+			//TODO better way to do this?
+			//not embedded, just open external links in new tabs
+			  $ymLinks.live("click",function(){ 
+				$(this).attr("target","_blank");
+			  });
+		}
+
+		//bind external links
+		$("#gwt-debug-es-ym-main > div:eq(0) a[href^='http']:not([href*='app.yardmap.org'])").live("click",function(){ 
+			$(this).attr("target","_blank");
+		});
+	</script>
+	 
   </body>
 </html>

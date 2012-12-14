@@ -6,7 +6,7 @@
     <meta equiv="X-UA-Compatible" content="chrome=1">
     <title>Eureka Widget</title>
   </head>
-  <body id="widget-rootpanel">
+  <body id="widget-rootpanel" style="background:transparent;">
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
     <script type="text/javascript" language="javascript" src="${build.web.cdn}/eureka.nocache.js?${timestamp}"></script>
 	<script type="text/javascript" src="${build.web.cdn}/scripts/external-js-min.js?${timestamp}"></script>
@@ -26,9 +26,15 @@
         var css = unescape(querySt('css'));
         var cssurl = unescape(querySt('cssurl'));
 
-        var socket = new easyXDM.Socket({
-            swf: '${build.web.cdn}/scripts/easyxdm.swf'
-        });
+        //@author cm325 for pages not using xdm, this throws an error
+        try {
+        	var socket = new easyXDM.Socket({
+                swf: '${build.web.cdn}/scripts/easyxdm.swf'
+            });	
+        } catch(e){
+        	console  && console.log("easyXDM socket failed to instantiate");
+        }
+        
 	
 
         var sendMessage = function(msg) {
@@ -38,7 +44,8 @@
         var lastHeight = 0;
         var layoutElem = null;
 
-        if (css) {
+        //@author cm325 css variable also needs check against undefined
+        if (css && css != "undefined") {
             var styleElement = document.createElement("style");
             styleElement.type = "text/css";
             if (styleElement.styleSheet) {
@@ -49,7 +56,8 @@
             document.body.appendChild(styleElement);
         }
 
-        if (cssurl) {
+      //@author cm325 cssurl variable also needs check against undefined
+        if (cssurl && cssurl != "undefined") {
             var styleRef = document.createElement("link")
             styleRef.setAttribute("rel", "stylesheet")
             styleRef.setAttribute("type", "text/css")
@@ -76,5 +84,69 @@
             }, 250);
         }
     </script>
+    
+    <!-- @author yardmap-cm325 YM modifications  --> 
+    <script type="text/javascript"> 
+  		//NOTE: this will work, but only if the gwt compiled html page that is also loaded has a similar document.domain
+    	//allow cross SUB-domain communication
+		//document.domain = "yardmap.org"; 
+    
+    //Custom after render (mostly) gwt event
+	window.customGwtJsniReadyEvent = function(){
+    	//we only need to load up additional logic if this page is being embedded in ym, and ym is using easyXdm
+    	if(socket){
+    		$(document).ready(function(){
+    			//hide the top bar
+    			$("#ym-expose-stream-panel-sort-search-row").remove(); //hide works, but it becomes unhidden on refresh
+    			
+    			//bind all the interal stream links, and send the href to parent frame instead
+    			var $internalLinks = $("#ym-expose-stream-list-panel-item-panel a[href^='#']").live("click",function(e){
+    				//block default action
+    				e.preventDefault();
+    				e.stopPropagation();
+    				
+    				//send the url to the parent page instead via easyxdm
+    				sendMessage('{"url":"/community' + $(this).attr("href") + '"}');
+    				return false;
+    			});
+			
+				//bind all ym app links
+				$("#ym-expose-stream-list-panel-item-panel a[href*='app.yardmap.org']").live("click",function(e){
+	    				//block default action
+	    				e.preventDefault();
+	    				e.stopPropagation();
+	    				
+	    				//send the url to the parent page instead via easyxdm
+					var url = /\/map\/[0-9]*|\/map#!\/.*/.exec($(this).attr("href"))[0].replace("/map#!","");
+	    				sendMessage('{"url":"' + url + '"}');
+	    				return false;
+	    			});
+	
+				//external links are set to open in new tabs by default
+	    		});	
+	    	}
+		}
+    </script>
+    <!-- still have some link styles in here, TODO merge!!! To provide specific instances of the widget with specific css, use the css/cssurl params @see above -->
+    <link rel="stylesheet" href="http://images.yardmap.org/css/social/eureka.css" type="text/css" />
+    <!-- could use maven plugin to do substitution, but for now, just point to a file thats only there in hte maven overlay build, so it doesnt really affect parent project -->
+	<link rel="stylesheet" href="/style/es-widget-yardmap.css" type="text/css" /> 
+    <style> 
+	.eureka-connect-like-share-container div:first-child {
+	   margin-right:4px;
+	}
+	.eureka-connect-like-share-container div {
+	  float:left
+	}
+ 	.eureka-connect-popout-arrow {
+	  position:absolute;
+	}
+ 	/* TODO TEMPORARY!!!! update gwt classes */
+	.eureka-connect-liked-activity-wrapper {
+	  width:0;
+	  height:0;
+	  visibility:hidden;
+	}
+    </style> 
   </body>
 </html>
