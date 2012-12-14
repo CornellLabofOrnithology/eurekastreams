@@ -36,6 +36,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -65,17 +66,47 @@ import org.hibernate.validator.Length;
  * Represents a person using the system, owning a start page.
  */
 @Entity
-@Indexed
-public class Person extends DomainEntity implements Serializable, AvatarEntity, Followable, HasEmail, Bannerable,
-        Identifiable
+@Table(name="person")
+public class CasPerson extends DomainEntity implements Serializable, AvatarEntity, Followable, HasEmail, Bannerable,
+        Identifiable 
 {
     /**
      * Serial version uid.
      */
-    private static final long serialVersionUID = -2941774908815671062L; 
+	private static final long serialVersionUID = 1346097758474831032L;
+	
+	/**
+     * User id
+     * If we're using cas, then this property is not optional
+     * It is the userid to fk to user1 of cas db (lab db)
+     */
+    @Basic(optional = false)
+    @Length(min = 1, max = 35, message = "User ID cannot be more than 35 characters long")
+    @Field(name = "userId")
+    @Column(name= "cas_user_id")
+    private String userId;
+
+        
+
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+    
+	/** everything here is the same, using this class so i can update extra field *****/
 
     /**
-     * used for validation.
+     * used for validation. 
      */
     @Transient
     public static final int MAX_FIRST_NAME_LENGTH = 50;
@@ -531,7 +562,7 @@ public class Person extends DomainEntity implements Serializable, AvatarEntity, 
     /**
      * Public constructor for ORM and ResourcePersistenceStrategy.
      */
-    public Person()
+    public CasPerson()
     {
     }
 
@@ -593,7 +624,7 @@ public class Person extends DomainEntity implements Serializable, AvatarEntity, 
      * @param personModelView
      *            the person model view.
      */
-    public Person(final PersonModelView personModelView)
+    public CasPerson(final PersonModelView personModelView)
     {
         setId(personModelView.getEntityId());
         avatarId = personModelView.getAvatarId();
@@ -624,7 +655,7 @@ public class Person extends DomainEntity implements Serializable, AvatarEntity, 
      * @param inPreferredName
      *            name the user prefers to be called
      */
-    public Person(final String inAccountId, final String inFirstName, final String inMiddleName,
+    public CasPerson(final String inAccountId, final String inFirstName, final String inMiddleName,
             final String inLastName, final String inPreferredName)
     {
         setAccountId(inAccountId);
@@ -1450,10 +1481,11 @@ public class Person extends DomainEntity implements Serializable, AvatarEntity, 
     @PostUpdate
     private void onPostUpdate()
     {
-        if (entityCacheUpdater != null)
+        //@author yardmap-cm325 im going to assume that updating a field that the app doesnt know about wont affect the cache
+    	/*if (entityCacheUpdater != null)
         {
             entityCacheUpdater.onPostUpdate(this);
-        }
+        }*/
     }
 
     /**
@@ -1463,10 +1495,11 @@ public class Person extends DomainEntity implements Serializable, AvatarEntity, 
     @PostPersist
     private void onPostPersist()
     {
-        if (entityCacheUpdater != null)
+        //@author cm325 I'm going to assume that the update to the field that the app doesnt use wont mess with the cache
+    	/*if (entityCacheUpdater != null)
         {
             entityCacheUpdater.onPostPersist(this);
-        }
+        }*/
     }
 
     /**

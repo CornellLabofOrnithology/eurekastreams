@@ -140,8 +140,10 @@ public class UserDetailsServiceImpl implements UserDetailsService
             // if user not found in DB, try to create from LDAP
             if (person == null)
             {
-                person = (Person) serviceActionController.execute(new ServiceActionContext(username, null),
-                        createUserfromLdapAction);
+            	//@author yardmap-cm325 - for now we dont want to even try to make accounts from ldap either
+                /*person = (Person) serviceActionController.execute(new ServiceActionContext(username, null),
+                        createUserfromLdapAction);*/
+                        
             }
         }
         catch (Exception e)

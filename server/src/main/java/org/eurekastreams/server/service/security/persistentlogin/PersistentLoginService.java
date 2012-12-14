@@ -244,7 +244,7 @@ public class PersistentLoginService extends TokenBasedRememberMeServices
     public void logout(final HttpServletRequest request,
             final HttpServletResponse response, final Authentication authentication)
     {
-        if (logger.isDebugEnabled())
+        /*if (logger.isDebugEnabled())
         {
             logger.debug("Logout of user "
                     + (authentication == null ? "Unknown" : authentication.getName()));
@@ -252,5 +252,30 @@ public class PersistentLoginService extends TokenBasedRememberMeServices
         cancelCookie(request, response);
         loginRepository.removePersistentLogin(((UserDetails) authentication
                 .getPrincipal()).getUsername());
+        */
+    	
+    	//@author yardmap-cm325 the above comment is the original content. TODO make this work with override from cas subproject
+    	logger.info("Starting eurekastreams-server-cas overriden logout");
+    	
+        //this is now where null can happen
+        if(authentication != null){
+        	if (logger.isDebugEnabled())
+            {
+                 logger.debug("Logout of user "
+                         + (authentication == null ? "Unknown" : authentication.getName()));
+            }
+            cancelCookie(request, response);
+            
+        	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        
+        	if(userDetails != null){
+        		//&& userDetails.getUsername() != null
+        		loginRepository.removePersistentLogin(userDetails.getUsername());
+        	}
+        	
+        	 logger.info("Logout of user " + (authentication == null ? "Unknown" : authentication.getName()) + " was successful");
+        } else {
+        	logger.info("Authentication was null, no session here to end");
+        }
     }
 }
