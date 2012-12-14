@@ -16,6 +16,8 @@
 package org.eurekastreams.web.client.ui.common;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eurekastreams.server.domain.Page;
 import org.eurekastreams.server.search.modelview.AuthenticationType;
@@ -130,16 +132,19 @@ public class HeaderComposite extends Composite
                 new CreateUrlRequest(Page.PEOPLE, viewer.getAccountId())));
         myProfileLink.addStyleName(StaticResourceBundle.INSTANCE.coreCss().navBarButton());
 
-        externalPageLinkPanel.add(externalLink);
+        //@author yardmap-cm325 - we don't need link in top left corner or start page
+        //externalPageLinkPanel.add(externalLink);
         externalPageLinkPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().externalHeaderButton());
-        startPageLinkPanel.add(startPageLink);
+        //@author yardmap-cm325 TODO need to disable startpage link after demoing
+        //startPageLinkPanel.add(startPageLink);
         startPageLinkPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().startHeaderButton());
         activityLinkPanel.add(activityLink);
         activityLinkPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().activityHeaderButton());
         directoryLinkPanel.add(directoryLink);
         directoryLinkPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().discoverHeaderButton());
 
-        linkMap.put(Page.START, startPageLink);
+        //@author yardmap-cm325 disable start page, until we figure out what to do with gadgets 
+        //linkMap.put(Page.START, startPageLink); 
         linkMap.put(Page.ACTIVITY, activityLink);
         linkMap.put(Page.DISCOVER, directoryLink);
         linkMap.put(Page.GROUPS, directoryLink);
@@ -176,7 +181,9 @@ public class HeaderComposite extends Composite
 
         if (Session.getInstance().getAuthenticationType() == AuthenticationType.FORM)
         {
-            userNav.add(new Anchor("Logout", "/j_spring_security_logout"));
+        	Anchor userLogoutAnchor = new Anchor("Logout", "/j_spring_security_logout");
+        	userLogoutAnchor.addStyleName(StaticResourceBundle.INSTANCE.coreCss().ymDisplayNone());
+            userNav.add(userLogoutAnchor);
         }
 
         // Note: The profile search box is created at constructor time because it registers listeners on the event
@@ -187,6 +194,8 @@ public class HeaderComposite extends Composite
 
         // Style the Elements
         panel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().headerBar());
+        // @author yardmap-cm325 add additional class to target with ym extensions
+        panel.addStyleName("ym-es-header-bar");
         navPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().navBar());
 
         mainNav.addStyleName(StaticResourceBundle.INSTANCE.coreCss().mainNav());
@@ -198,7 +207,8 @@ public class HeaderComposite extends Composite
         panel.add(navPanel);
 
         initWidget(panel);
-        setActive(Session.getInstance().getUrlPage());
+        //@author yardmap-cm325 note: this only sets the active css class, not the active page
+        setActive(Session.getInstance().getUrlPage()); 
     }
 
 

@@ -79,7 +79,10 @@ public class FooterComposite extends Composite
 
         Anchor poweredBy = new Anchor("", "http://www.eurekastreams.org");
         poweredBy.addStyleName(StaticResourceBundle.INSTANCE.coreCss().poweredByEureka());
-        navPanel.add(poweredBy);
+        
+        //@author yardmap-cm325
+        //removed link to eurekastreams. bottom bar is hidden in css
+        //navPanel.add(poweredBy);
 
         panel.add(navPanel);
         panel.add(siteLabelingContainer);
