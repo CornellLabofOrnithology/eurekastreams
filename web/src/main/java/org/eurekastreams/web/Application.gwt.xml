@@ -6,12 +6,18 @@
 	<inherits name="org.eurekastreams.server.Domain" />
 	<inherits name='com.allen_sauer.gwt.dnd.gwt-dnd' />
     <inherits name='net.sf.gilead.Gilead4Gwt'/>
+    
     <inherits name="com.google.gwt.logging.LoggingDisabled"/>
+    <!-- @author yardmap-cm325 this is normally a test setting, but if u need for prod its here -->
+    <!--<inherits name="com.google.gwt.logging.Logging"/>-->
+    
     <inherits name='com.googlecode.gchart.GChart'/>
     <inherits name='com.google.gwt.widgetideas.GWTCanvas' />
 
     
     <set-property name="user.agent" value="ie6,ie8,gecko1_8,safari,opera"/>    
+    <!-- @author yardmap-cm325 this is normally a test setting, but if u need it -->
+    <set-property name="gwt.logging.popupHandler" value="DISABLED" />
 
 	<entry-point class='org.eurekastreams.web.client.ui.pages.master.ApplicationEntryPoint' />
 	<entry-point class='org.eurekastreams.web.client.ui.pages.master.ConnectEntryPoint' />

@@ -141,17 +141,18 @@ public class SearchContent extends FlowPanel
         GetDirectorySearchResultsRequest request = new GetDirectorySearchResultsRequest(query, boost, 0, 0,
                 "searchpage");
 
+        //@author yardmap-cm325 changed the word "Employees" to "People"
         if (!initialized)
         {
             searchResultsPanel.addSet("All", SearchResultsModel.getInstance(), renderer, request);
-            searchResultsPanel.addSet("Employees", SearchResultsPeopleModel.getInstance(), renderer, request);
+            searchResultsPanel.addSet("People", SearchResultsPeopleModel.getInstance(), renderer, request);
             searchResultsPanel.addSet("Groups", SearchResultsGroupModel.getInstance(), renderer, request);
             initialized = true;
         }
         else if (!boost.equals(currentBoost) || !query.equals(currentQuery))
         {
             searchResultsPanel.updateSetRequest("All", request);
-            searchResultsPanel.updateSetRequest("Employees", request);
+            searchResultsPanel.updateSetRequest("People", request);
             searchResultsPanel.updateSetRequest("Groups", request);
 
             // Invalidate searchResultsPanel so that it will reload when it gets the event.
