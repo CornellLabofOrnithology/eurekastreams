@@ -51,7 +51,7 @@
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{ISO8601} %-5p %m%n" />
 		</layout>
-		<param name="Threshold" value="warn" />
+		<param name="Threshold" value="debug" />
 	</appender>
 
 	<!-- Set level to "off" to not see spring output in logs -->
@@ -62,20 +62,20 @@
 
 	<!-- Set level to "off" to not see hibernate output in logs -->
 	<logger name="org.hibernate">
-		<level value="debug" />
+		<level value="trace" />
 		<!-- <appender-ref ref="hibernateFile" /> -->
 	</logger>
 
 	<logger name="org.eurekastreams">
 		<level value="debug" />
 		<!-- Uncomment the following line to see all the application warning and error logging on screen. -->
-<!-- 		<appender-ref ref="console" /> -->
+		<appender-ref ref="console" />
 	</logger>
 
 
 	<root>
 		<priority value="all" />
-		<!-- <appender-ref ref="file" /> -->
+		<appender-ref ref="console" />
 	</root>
 
 </log4j:configuration>
