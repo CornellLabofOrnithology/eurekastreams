@@ -214,11 +214,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.6.SEC02</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 			<version>2.5.1</version>
@@ -271,10 +266,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- @author yardmap-cm325 upgraded version of dbunit from 2.4.3 to 2.4.5 -->
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
-			<version>2.4.3</version>
+			<version>2.4.5</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -510,6 +506,58 @@
 			to list. -->
 			<version>1.8-NoDeps</version>
 	    </dependency>
+	    
+	    <!-- @cm325 added this so we can test with postgres as well as hsql -->
+	    <dependency>
+            <groupId>it.cnr.isti.domoware</groupId>
+            <artifactId>org.postgresql.jdbc4</artifactId>
+            <version>8.3-603</version>
+        </dependency>
+        
+        <!-- @cm325 added this cause otherwise if we tried building without es maven, it would fail on the javax.spi.IllegalException class missing-->
+        <dependency>
+			<groupId>jboss</groupId>
+			<artifactId>jboss-j2ee</artifactId>
+			<version>4.2.2.GA</version>
+		</dependency>
+		<!-- @cm325 likewise these dependecies also seemed to have come from the jars in es maven -->
+		<dependency>
+			<groupId>bsh</groupId>
+			<artifactId>bsh</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>quartz</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+		<!--  -->
+		<dependency>
+			<groupId>net.sf.beanlib</groupId>
+			<artifactId>beanlib</artifactId>
+			<version>5.0.2beta</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xstream</groupId>
+					<artifactId>xstream</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.beanlib</groupId>
+			<artifactId>beanlib-hibernate</artifactId>
+			<version>5.0.2beta</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 	</dependencies>
 	<pluginRepositories>
@@ -571,6 +619,18 @@
 					<skip>false</skip>
 				</configuration>
 			</plugin>
+			<plugin>
+		       <groupId>org.apache.maven.plugins</groupId>
+		       <artifactId>maven-jar-plugin</artifactId>
+		       <version>2.2</version>
+		       <executions>
+		         <execution>
+		           <goals>
+		             <goal>test-jar</goal>
+		           </goals>
+		         </execution>
+		       </executions>
+		     </plugin>
 		</plugins>
 		<resources>
 			<resource>

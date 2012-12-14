@@ -50,13 +50,13 @@
         <module>database</module>
     </modules>
     <pluginRepositories>
-        <pluginRepository>
+        <!-- <pluginRepository>
             <id>Eureka Streams repository</id>
             <url>http://maven.eurekastreams.org/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
-        </pluginRepository>
+        </pluginRepository> -->
         <pluginRepository>
             <id>central</id>
             <name>Maven Plugin Repository</name>
@@ -71,13 +71,13 @@
         </pluginRepository>
     </pluginRepositories>
 	<repositories>
-	  <repository>
+	  <!-- <repository>
 	    <id>Eureka Streams Dependency Repo</id>
 	    <snapshots>
 	    	<enabled>false</enabled>
 	    </snapshots>
 	    <url>http://maven.eurekastreams.org</url>
-	  </repository>
+	  </repository>  -->
       <repository>
         <id>central</id>
         <name>Maven Repository Switchboard</name>
@@ -113,10 +113,21 @@
             <enabled>false</enabled>
         </snapshots>
       </repository>
-      <repository>
+      <!-- <repository>
         <id>restlet</id>
         <url>http://maven.restlet.org/</url>
-      </repository>
+      </repository> -->
+      <repository>
+			<id>CitSci-nexus</id>
+			<name>Citizen Science Nexus Repository</name>
+			<url>http://maven.ornith.cornell.edu/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository> 
 	</repositories>
     <properties>
 		<version.junit>4.8.2</version.junit>
@@ -193,6 +204,37 @@
 					<version>2.4.3</version>
 					<configuration>
 						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-checkstyle-plugin
+										</artifactId>
+										<versionRange>
+											[2.4,)
+										</versionRange>
+										<goals>
+											<goal>checkstyle</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
 			</plugins>
