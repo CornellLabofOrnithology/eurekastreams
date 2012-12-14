@@ -1,9 +1,9 @@
-
+    /*@author yardmap-cm325 changed default banner to a green hill banner, left name the same */
     div.banner-container
     {
         background: 
             #0b4268 
-            url(/style/images/ISGS_Banner.png)
+            url(/style/images/ISGS_Banner.jpg)
             repeat;
             
                 border-bottom: 1px solid #676767;       

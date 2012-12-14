@@ -161,6 +161,18 @@
 			forward the request and thus be invoked again on the new forward chain.
 		 -->
 	</filter-mapping>
+	
+	<!-- this filter is located in the eurekastreams-server-cas extension project -->
+	<filter>
+	    <filter-name>responseCacheHeadersFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>responseCacheHeadersFilter</filter-name>
+	    <url-pattern>/index.html</url-pattern>
+	    <url-pattern>/widget.html</url-pattern>
+	    <url-pattern>/</url-pattern>
+	</filter-mapping>
 
 
 	<!-- =============== LISTENERS =============== -->
