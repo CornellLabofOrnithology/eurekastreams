@@ -218,6 +218,9 @@ public class StreamPanel extends FlowPanel
         stream = new StreamListPanel(itemRenderer);
         stream.addStyleName(StaticResourceBundle.INSTANCE.coreCss().stream());
         stream.setVisible(false);
+        
+        //@author cm325 need to expose id
+        stream.getElement().setId("ym-expose-stream-panel-stream");
 
         shadowPanel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().postToStreamContainer());
         shadowPanel.setVisible(false);
@@ -240,6 +243,9 @@ public class StreamPanel extends FlowPanel
         sortSearchRow.add(sortPanel);
         sortSearchRow.add(feedLinkWidget);
         sortSearchRow.add(searchBoxWidget);
+        
+        //@author cm325 need to expose id
+        sortSearchRow.getElement().setId("ym-expose-stream-panel-sort-search-row");
 
         this.add(postContent);
         this.add(titlePanel);

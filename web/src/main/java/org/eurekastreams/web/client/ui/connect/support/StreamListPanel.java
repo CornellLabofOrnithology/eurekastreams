@@ -88,6 +88,10 @@ public class StreamListPanel extends FlowPanel
     {
         renderer = inRenderer;
         itemPanel = new FlowPanel();
+        
+        //@author cm325
+        itemPanel.getElement().setId("ym-expose-stream-list-panel-item-panel");
+        
         moreButton = new Label("View More");
 
         errorLabel.addStyleName(StaticResourceBundle.INSTANCE.coreCss().formErrorBox());

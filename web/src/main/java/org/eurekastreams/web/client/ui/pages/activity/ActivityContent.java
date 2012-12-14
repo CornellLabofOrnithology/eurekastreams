@@ -244,6 +244,12 @@ public class ActivityContent extends Composite
      */
     @UiField
     StreamDetailsComposite streamDetailsComposite;
+    
+    /**
+     * @author yardmap-cm325 Main panel, this didnt't have an id :(, and css was inline
+     */
+    @UiField
+    HTMLPanel ymMainPanel;
 
     /**
      * No results panel.
@@ -573,6 +579,7 @@ public class ActivityContent extends Composite
         addObservers();
         setupStreamsAndBookmarks();
         moreLink.setVisible(false);
+        ymMainPanel.getElement().setId("gwt-debug-es-ym-main");
         streamSearchStatusWidget.setVisible(false);
         errorPanel.setVisible(false);
 
@@ -1134,7 +1141,8 @@ public class ActivityContent extends Composite
                 }
                 if (sortedStreamFilters.size() == 0)
                 {
-                    Label defaultLabel = new Label("Bookmarks allow you to quickly jump to any stream in Eureka.");
+                	//@author yardmap-cm325 removed "in Eureka."
+                    Label defaultLabel = new Label("Bookmarks allow you to quickly jump to any stream");
                     defaultLabel.addStyleName(style.noBookmarksMessage());
                     bookmarkList.add(defaultLabel);
                 }

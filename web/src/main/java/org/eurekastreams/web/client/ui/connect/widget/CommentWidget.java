@@ -206,6 +206,8 @@ public class CommentWidget extends Composite
             if (!accountLocked)
             {
                 postToEurekaCheckBox.addStyleName(StaticResourceBundle.INSTANCE.coreCss().postToEureka());
+                //@author yardmap-cm325 we don't need to see this box
+                postToEurekaCheckBox.setVisible(false);
                 getSubTextboxPanel().insert(postToEurekaCheckBox, 0);
             }
         }

@@ -370,7 +370,7 @@
 			}
 		</ui:style>
 
-	<g:HTMLPanel addStyleNames="{style.main}">
+	<g:HTMLPanel addStyleNames="{style.main}" debugId="es-ym-main" ui:field="ymMainPanel">
 		<g:HTMLPanel addStyleNames="{style.stream-container-panel}"
 			ui:field="streamContainerPanel">
 			<ewa:StreamDetailsComposite ui:field="streamDetailsComposite"></ewa:StreamDetailsComposite>

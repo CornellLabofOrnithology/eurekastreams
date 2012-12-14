@@ -25,6 +25,7 @@ import org.eurekastreams.web.client.ui.common.stream.renderers.ResourceCountWidg
 import org.eurekastreams.web.client.ui.common.stream.renderers.ResourceCountWidget.CountType;
 import org.eurekastreams.web.client.ui.pages.master.StaticResourceBundle;
 
+import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -49,6 +50,7 @@ public class LikeShareWidget extends Composite
     {
         final FlowPanel widget = new FlowPanel();
         widget.addStyleName(StaticResourceBundle.INSTANCE.coreCss().eurekaConnectLikeShareContainer());
+        
         initWidget(widget);
 
         EventBus.getInstance().addObserver(GotResourceDTOResponseEvent.class,
@@ -67,5 +69,13 @@ public class LikeShareWidget extends Composite
         LikeResourceModel.getInstance().fetch(
                 new SharedResourceRequest(resourceUrl, Session.getInstance().getCurrentPerson().getEntityId()), false);
 
+        //@author yardmap-cm325 - we are embedding the like share widget, so we need an overflow hidden to avoid scrollbars
+        widget.addAttachHandler(new AttachEvent.Handler() {
+        	  public void onAttachOrDetach(AttachEvent event) {
+        		  widget.getElement().getParentElement().getParentElement().addClassName(StaticResourceBundle.INSTANCE.coreCss().resizingTextArea());
+        	  }
+        });
+        
+        
     }
 }
