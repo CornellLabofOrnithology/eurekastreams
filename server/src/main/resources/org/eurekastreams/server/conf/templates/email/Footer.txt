@@ -1,13 +1,13 @@
 ##
 
 Thank You,
-Eureka Streams
+Yardmap
 
 --- 
 
 To find out more information, visit #prop('eureka.infosite.url')
 
 #if ($typeToCategoryMap.get($type))
-Emails you receive from Eureka Streams can be managed from your notification settings page:
+Emails you receive from Yardmap can be managed from your notification settings page:
 #prop('eureka.web.baseurl')${esc.h}notificationsettings
 #end

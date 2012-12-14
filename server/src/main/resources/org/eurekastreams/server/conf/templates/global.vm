@@ -98,18 +98,19 @@ $activity.baseObjectProperties.targetTitle - $activity.baseObjectProperties.targ
 " $helper.cleanWhitespace($comment.body) "
 #end
 
-
+## TODO @author yardmap-cm325 changed these TWO templates, since we're not supporting this yet. Can this be overidden properly? 
 #macro( replyNotice_txt )
 ##
 #if ($hasReplyAddress)
 
-You can reply directly to this message by replying to this email. Be mindful to remove your email signature so as to not attach it to your comment within Eureka.
+## You can reply directly to this message by replying to this email. Be mindful to remove your email signature so as to not attach it to your comment within Yardmap.
 #end
 #end
 
 #macro( replyNotice_html )
 #if ($hasReplyAddress)
-<p>You can reply directly to this message by replying to this email. Be mindful to remove your email signature so as to not attach it to your comment within Eureka.</p>
+## <p>You can reply directly to this message by replying to this email. Be mindful to remove your email signature so as to not attach it to your comment within Yardmap.</p>
+<p></p>
 #end
 #end
 
