@@ -1,4 +1,4 @@
-insert into db_version (major, minor, patch, scriptname, description) values (1, 0, '0020', 'U0020UpdateCreatePersonFunction.sql', 'Update Person insert with new fields, remove Person_Stream inserts.');
+insert into db_version (major, minor, patch, scriptname, description) values (2, 0, '0005', 'U0005UpdateCreatePersonFunction.sql', 'Update Person insert with new fields, remove Person_Stream inserts.');
 
 --Automatic drop and then create to ensure successful creation.
 DROP FUNCTION IF EXISTS CreatePerson (_accountid VARCHAR, _firstname VARCHAR, _middlename VARCHAR,  _lastname VARCHAR, _email VARCHAR, _opensocialid VARCHAR);
