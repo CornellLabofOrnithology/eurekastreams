@@ -74,6 +74,11 @@ public class AvatarUploadFormElement extends FlowPanel
      */
     FlowPanel errorBox;
     /**
+     * The processing spinner.
+     * @author yardmap-cm325 adding a processing spiny for image upload, which can sometimes take a sec or two
+     */
+    private final Label processingSpinny = new Label("Processing...");
+    /**
      * the avatar container.
      */
     FlowPanel avatarContainer = new FlowPanel();
@@ -100,10 +105,11 @@ public class AvatarUploadFormElement extends FlowPanel
 
     /**
      * Default description if none is provided.
+     * @author yardmap-cm325 
      */
     private static String description =
     // line break.
-    "Select a JPG, PNG or GIF image from your computer. The maximum file size is 4MB.";
+    "Select a JPG, PNG or GIF image from your computer. The maximum file size is 3MB.";
 
     /**
      * Create an avatar upload form element.
@@ -146,8 +152,9 @@ public class AvatarUploadFormElement extends FlowPanel
 
         errorBox = new FlowPanel();
         errorBox.addStyleName(StaticResourceBundle.INSTANCE.coreCss().formErrorBox());
+        //@author yardmap-cm325 the limit was reduced to 3mb, @see #UploadImageServlet
         errorBox.add(new Label("There was an error uploading your image. Please be sure "
-                + "that your photo is under 4MB and is a PNG, JPG, or GIF."));
+                + "that your photo is under 3MB and is a PNG, JPG, or GIF."));
 
         errorBox.setVisible(false);
 
@@ -211,6 +218,14 @@ public class AvatarUploadFormElement extends FlowPanel
         submitButton.addStyleName(StaticResourceBundle.INSTANCE.coreCss().formButton());
 
         uploadPanel.add(submitButton);
+        
+        /**
+         * @author yardmap-cm325 adding processing spinny after submit button
+         */
+        processingSpinny.setVisible(false);
+        processingSpinny.addStyleName(StaticResourceBundle.INSTANCE.coreCss().formSubmitSpinny());
+        processingSpinny.addStyleName(StaticResourceBundle.INSTANCE.coreCss().formProcessingSpinny());
+        uploadPanel.add(processingSpinny);
 
         hiddenImage = new Image();
         hiddenImage.addStyleName(StaticResourceBundle.INSTANCE.coreCss().avatarHiddenOriginal());
@@ -222,7 +237,8 @@ public class AvatarUploadFormElement extends FlowPanel
         {
             public void onClick(final ClickEvent event)
             {
-                uploadForm.submit();
+                processingSpinny.setVisible(true);
+            	uploadForm.submit();
             }
         });
 
@@ -233,6 +249,7 @@ public class AvatarUploadFormElement extends FlowPanel
         {
             public void onSubmitComplete(final SubmitCompleteEvent ev)
             {
+            	processingSpinny.setVisible(false);
                 String result = ev.getResults().replaceAll("\\<.*?\\>", "");
                 final boolean fail = "fail".equals(result);
                 errorBox.setVisible(fail);

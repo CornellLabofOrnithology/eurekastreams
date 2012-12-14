@@ -59,7 +59,8 @@ public class ResourceDestinationRenderer implements StatefulRenderer
         Panel main = new FlowPanel();
         main.addStyleName(StaticResourceBundle.INSTANCE.coreCss().inlinePanel());
 
-        main.add(new InlineLabel("commented on"));
+        //@author yardmap-cm325 changed "commented on" to note text
+        main.add(new InlineLabel("added a note on"));
         main.add(new Anchor(resourceTitle, resourceUrl));
         if (resourceTitle != null && !resourceTitle.isEmpty())
         {
@@ -70,7 +71,8 @@ public class ResourceDestinationRenderer implements StatefulRenderer
             }
             else
             {
-                main.add(new InlineLabel(" from " + siteTitle));
+                //@author yardmap-cm325 we don't need this text on commenter widget posts
+            	//main.add(new InlineLabel(" from " + siteTitle));
             }
         }
 

@@ -1351,7 +1351,9 @@ public class StreamDetailsComposite extends Composite
         String email = person.getEmail();
         if (email != null)
         {
-            contact = "<a href=\"mailto:" + email + "\">" + email + "</a>";
+        	//@author yardmap-cm325
+        	//contact = "<a href=\"mailto:" + email + "\">" + email + "</a>";
+            contact = "<a href=\"javascript:void(0);\">Emails are not shared</a>";
         }
         if (person.getWorkPhone() != null)
         {
