@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eurekastreams.commons.actions.context.PrincipalActionContext;
 import org.eurekastreams.commons.actions.context.TaskHandlerActionContext;
 import org.eurekastreams.server.action.response.settings.PersonPropertiesResponse;
@@ -43,6 +45,11 @@ import org.eurekastreams.server.persistence.mappers.DomainMapper;
  */
 public class PersonCreator implements ResourcePersistenceStrategy<Person>
 {
+	/**
+     * Logger.
+     */
+    private static Log log = LogFactory.getLog(PersonCreator.class);
+
     /**
      * The person mapper.
      */
@@ -98,6 +105,7 @@ public class PersonCreator implements ResourcePersistenceStrategy<Person>
     public Person get(final TaskHandlerActionContext<PrincipalActionContext> inActionContext,
             final Map<String, Serializable> inFields)
     {
+    	log.info("Person creator is excecuting GET a new person");
         // create the person
         Person person = new Person((String) inFields.get("accountId"), (String) inFields.get("firstName"),
                 (String) inFields.get("middleName"), (String) inFields.get("lastName"), (String) inFields
@@ -151,6 +159,8 @@ public class PersonCreator implements ResourcePersistenceStrategy<Person>
         inFields.remove("email");
         inFields.remove("sourceList");
 
+        log.info("PersonCreate GET is done");
+        
         return person;
     }
 
